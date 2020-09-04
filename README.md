@@ -15,8 +15,8 @@ import Model from 'Model'
 
 // 1.定义数据模型描述对象
 const modelDescription = {
-    id: String,
-    name: Number,
+    id: Number,
+    name: String,
     avatar: Object,
 }
 

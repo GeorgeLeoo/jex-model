@@ -1,4 +1,5 @@
-const Model = require('../src/Model')
+// const Model = require('../src/Model')
+const Model = require('../lib')
 
 // // 1.定义模型描述对象
 // const modelDescription = {
