@@ -12,7 +12,7 @@ const webpackConfig = {
     },
     output: {
         filename: 'index.js',
-        path: utils.DIST_PATH
+        path: utils.LIB_PATH
     },
     module: {
         rules: [
