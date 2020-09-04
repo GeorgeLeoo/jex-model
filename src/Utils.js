@@ -1,4 +1,4 @@
-import{ isArray, isObject, isUndefined } from './DataType'
+const { isArray, isObject } = require('./DataType')
 
 /**
  * 工具类

@@ -1,6 +1,7 @@
-import DataType, { isArray, isObject, isFunction, isUndefined, isString } from './DataType'
-import Filters from './Filters'
-import Utils from './Utils'
+const { isArray, isObject, isFunction, isUndefined, isString } = require('./DataType')
+const DataType = require('./DataType')
+const Utils = require('./Utils')
+const Filters = require('./Filters')
 
 class Model {
     
