@@ -154,7 +154,7 @@ class Model {
             throw new Error(property + ' need type property.')
         }
         
-        if (isFunction(type)) {
+        if (!(type === String || type === Number || type === Boolean || type === Object || type === Array)) {
             throw new Error(property + ' need type property, only Number, String, Boolean, Object, Array.')
         }
         
@@ -165,9 +165,10 @@ class Model {
                     const temp = Utils.deepClone(data)
                     const children = modelDescriptionValue.children.children
                     if (children) {
-                        const model = new Model(children)
+                        let model = new Model(children)
                         const result = []
                         temp[property].forEach(item => {result.push(model.generate(item))})
+                        model = null
                         temp[property] = result
                     }
                     data = temp
@@ -190,8 +191,9 @@ class Model {
             const children = modelDescriptionValue.children
             const temp = Utils.deepClone(data)
             if (children) {
-                const model = new Model(children)
+                let model = new Model(children)
                 temp[property] = model.generate(temp[property])
+                model = null
             }
             data = temp
         }
@@ -250,8 +252,9 @@ class Model {
      */
     _buildOnArray(data, modelDescription) {
         const result = []
-        const model = new Model(modelDescription)
+        let model = new Model(modelDescription)
         data.forEach(item => { result.push(model.generate(item)) })
+        model = null
         return result
     }
     
