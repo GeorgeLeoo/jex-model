@@ -9,6 +9,10 @@ I'm 提升开发效率
 I'm 提升程序健壮性
 ~~~~
 
+~~~~
+Github: https://github.com/GeorgeLeoo/jex-model
+~~~~
+
 # Base usage
 ```javascript
 import Model from 'Model'
