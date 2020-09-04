@@ -1,0 +1,16 @@
+{
+  "name": "jex_model",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run": "babel-node test/test2.js",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "jest": "^26.4.2"
+  }
+}
