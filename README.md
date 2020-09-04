@@ -15,7 +15,7 @@ Github: https://github.com/GeorgeLeoo/jex-model
 
 # Base usage
 ```javascript
-import Model from 'Model'
+import Model from 'jex-model'
 
 // 1.定义数据模型描述对象
 const modelDescription = {
@@ -51,7 +51,7 @@ modelDescription 由 key-value 组成，key 是最终的键名，value是具体�
 
 # 示例
 ```javascript
-import Model from 'Model'
+import Model from 'jex-model'
 
 // 1. 定义数据模型描述对象
 const modelDescription = {
