@@ -1,5 +1,5 @@
-// const Model = require('../src/Model')
-const Model = require('../lib')
+const Model = require('../src/Model')
+// const Model = require('../lib')
 
 // // 1.定义模型描述对象
 // const modelDescription = {
@@ -94,6 +94,7 @@ const modelDescription = {
     list: {
         type: Array,
         property: 'list',
+        default: [],
         children: {
             type: String,
             filter: (data) => {
@@ -149,9 +150,46 @@ const dataSource = {
     ],
     list: [ 'one', 'two', 3, false ]
 }
+const dataSource2 = {
+    name: 'xm',
+    AGE: 22,
+    STATE: 2,
+    price: '20000',
+    "ACCOUNT.AVATAR": 'http://a.b.com/a.png',
+    ADDRESS_INFO: {
+        'ADDRESS_INFO.ADDRESS': {
+            'ADDRESS.PROVINCE': '江苏省',
+            'ADDRESS.CITY': '南京市',
+            'ADDRESS.AREA': '建邺区',
+            'ADDRESS.OTHER': '金穗花园'
+        },
+        'ADDRESS_INFO.TEL': '18921483101',
+    },
+    PAY_LIST: [
+        {
+            MONTH: '2020-03-04',
+            // MONEY: 20
+        },
+        {
+            MONTH: '2020-06-09',
+            MONEY: 66
+        },
+    ],
+}
 
-const instanceModel = new Model(modelDescription)
 
 // 4.调用 model.generate 方法生成最终数据
-const model = instanceModel.generate(dataSource)
-console.log(model)
+// const model = instanceModel.generate(dataSource)
+// const model1 = instanceModel.generate(dataSource)
+// console.log(model)
+// console.log(model1)
+const instanceModel = new Model(modelDescription)
+const max = 100000
+const label = 'time' + max
+console.time(label)
+for (let i = 0; i < max; i++) {
+    // console.log(instanceModel.generate(dataSource2))
+    instanceModel.generate(dataSource)
+    instanceModel.generate(dataSource2)
+}
+console.timeEnd(label)

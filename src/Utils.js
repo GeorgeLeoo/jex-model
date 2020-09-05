@@ -1,4 +1,4 @@
-const { isArray, isObject } = require('./DataType')
+const { isArray, isObject, isPrimitive } = require('./DataType')
 
 /**
  * 工具类
@@ -43,6 +43,52 @@ Utils.deepClone = function(obj = {}) {
         }
     }
     return result
+}
+
+Utils.contentEqual = (source, target) => {
+    // 若 target 是原始数据类型和函数，则 直接比较
+    if (isPrimitive(source) || isPrimitive(target)) {
+        return source === target
+    }
+    // 若都是对象
+    if (isObject(source) && isObject(target)) {
+        const sourceLength = Object.keys(source).length
+        const targetLength = Object.keys(target).length
+        
+        // 若对象长度不等则肯定不等
+        if (sourceLength !== targetLength) {
+            return false
+        }
+        
+        for (let key in source) {
+            if (source.hasOwnProperty(key)) {
+                const isEqual = Utils.contentEqual(source[key], target[key])
+                if (!isEqual) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    // 若都是数组
+    if (isArray(source) && isArray(target)) {
+        const sourceLength = source.length
+        const targetLength = target.length
+        
+        // 若数组长度不等则肯定不等
+        if (sourceLength !== targetLength) {
+            return false
+        }
+        for (let i = 0; i < sourceLength; i++) {
+            const isEqual = Utils.contentEqual(source[i], target[i])
+            if (!isEqual) {
+                return false
+            }
+        }
+        return true
+    }
+    // 啥也不是
+    return false
 }
 
 module.exports = Utils

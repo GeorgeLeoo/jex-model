@@ -2,6 +2,7 @@ const { isArray, isObject, isFunction, isUndefined, isString } = require('./Data
 const DataType = require('./DataType')
 const Utils = require('./Utils')
 const Filters = require('./Filters')
+const Dep = require('./Dep')
 
 class Model {
     
@@ -12,6 +13,9 @@ class Model {
         this.modelDescription = modelDescription
         this.result = null
         this.resultType = null
+        this.resultCache = null
+        this.cache = null
+        this.dep = new Dep(this)
     }
     
     /**
@@ -160,10 +164,12 @@ class Model {
         }
         
         if (type === Array) {
+            const tempData = Utils.deepClone(data)
+            tempData[property] = this._getDefaultValue(tempData[property], modelDescriptionValue, property)
             const children = modelDescriptionValue.children
             if (isObject(children)) {
                 if (children.type === Object) {
-                    const temp = Utils.deepClone(data)
+                    const temp = Utils.deepClone(tempData)
                     const children = modelDescriptionValue.children.children
                     if (children) {
                         let model = new Model(children)
@@ -177,10 +183,14 @@ class Model {
                 // else {
                 //     throw new Error('children need type property')
                 // }
+                
                 const filter = children.filter
                 if (isFunction(filter)) {
                     const result = []
-                    const temp = Utils.deepClone(data)
+                    const temp = Utils.deepClone(tempData)
+                    if (isUndefined(temp[property])) {
+                        throw new Error('DataSource need property ' + property)
+                    }
                     temp[property].forEach(item => { result.push(filter(item)) })
                     temp[property] = result
                     data = temp
@@ -284,10 +294,25 @@ class Model {
      * @returns {*}
      */
     generate (dataSource) {
+        // 增加缓存机制，提升性能
+        // 判断传入的数据源和缓存中的是否一样，一样则直接返回上次的数据
+        if (this.dep.isContentEqual(dataSource)){
+            return this.dep.getResult()
+        }
         const data = Utils.deepClone(dataSource)
+        // 数据源缓存
+        this.cache = data
         this.result = this._initResult(data)
         this.resultType = this._initResultType(data)
-        return this._build(data, this.modelDescription, this.result, this.resultType)
+        const resultData = this._build(data, this.modelDescription, this.result, this.resultType)
+        // 缓存最终结果
+        this.resultCache = Utils.deepClone(resultData)
+        const depOptions = {
+            dataSource: data,
+            result: resultData
+        }
+        this.dep.add(this.dep.setId(), depOptions)
+        return resultData
     }
 }
 

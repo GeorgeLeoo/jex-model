@@ -12,7 +12,21 @@ I'm 提升程序健壮性
 ~~~~
 Github: https://github.com/GeorgeLeoo/jex-model
 ~~~~
-
+# 更新日志
+~~~~
+2020-9-5 新增缓存机制，对于同一数据模型对象的实例对象来说，不同的数据源，可以进行数据缓存， 
+以下文中 示例 中的数据模型对象和数据源为例子， 对于执行100000次来说，使用缓存和未使用缓存时间比大概是 0.4s ：9s
+const instanceModel = new Model(modelDescription)
+const max = 100000
+const label = 'time' + max
+console.time(label)
+for (let i = 0; i < max; i++) {
+    // dataSource 和 dataSource2 只是差一个 dataSource.list 属性
+    instanceModel.generate(dataSource)
+    instanceModel.generate(dataSource2)
+}
+console.timeEnd(label)
+~~~~
 # Base usage
 ```javascript
 import Model from 'jex-model'

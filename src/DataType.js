@@ -12,6 +12,9 @@ DataType.isArray = obj => Object.prototype.toString.call(obj) === '[object Array
 DataType.isFunction = obj => Object.prototype.toString.call(obj) === '[object Function]'
 DataType.isNull = obj => Object.prototype.toString.call(obj) === '[object Null]'
 
+DataType.isPrimitive = obj => !(DataType.isObject(obj) || DataType.isArray(obj))
+
+
 /**
  * 获取最终的数据类型
  * @param {*} obj
